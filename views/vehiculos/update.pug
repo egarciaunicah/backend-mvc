@@ -1,0 +1,41 @@
+extends ../layout
+
+block content
+    a(href='/vehiculos') Regresar
+
+    br
+    br
+    br
+
+    h1 Actualizar Vehiculo
+
+    br
+
+    br
+
+    form(action=`/vehiculos/${vehi.id}/update` method='post')
+        label(for='id') Id:
+        input#id(type='text' name='id' value=vehi.id)
+        br
+
+        label(for='color') Color:
+        input#id(type='text' name='color' value=vehi.color)
+        br
+
+        label(for='marca') Marca:
+        input#id(type='text' name='marca' value=vehi.marca)
+        br
+
+        label(for='modelo') Modelo:
+        input#id(type='text' name='modelo' value=vehi.modelo)
+        br
+        br
+
+        input.btn(type='submit' value='Actualizar')
+
+        
+
+
+
+
+
