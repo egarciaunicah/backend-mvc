@@ -5,8 +5,10 @@ const { modelName } = require('../../models/carro');
 
 const Carro = require('../../models/carro');
 
+//mongodb+srv://<usuario>:<clave>@cluster0.lghyo.mongodb.net/test
+
 try {
-    mongoose.connect('mongodb+srv://egarcia:<clave>@cluster0.lghyo.mongodb.net/test', {
+    mongoose.connect('mongodb+srv://<usuario>:<clave>@cluster0.lghyo.mongodb.net/test', {
         useNewUrlParser: true, 
         useUnifiedTopology: true,
         useCreateIndex: true
@@ -54,6 +56,23 @@ router.put('/update_carro', async (req, res) => {
     const carroActualizado = await Carro.findByIdAndUpdate(cid, datos, {new:true});
 
     res.status(200).json({carro: carroActualizado});
+});
+
+//Borrar un carro
+
+router.delete('/delete_carro', async(req, res) => {
+    const cid = req.query.id;
+
+    const carroDB = await Carro.findById(cid);
+    if(!carroDB){
+        res.status(404).json({
+            msg: 'No existe el carro'
+        });
+    }
+
+    await Carro.findByIdAndDelete(cid);
+    res.status(200).json({msj: 'Carro Borrado'});
+
 });
 
 
