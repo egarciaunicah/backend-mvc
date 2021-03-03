@@ -6,7 +6,7 @@ const { modelName } = require('../../models/carro');
 const Carro = require('../../models/carro');
 
 try {
-    mongoose.connect('mongodb+srv://egarcia:admin123@cluster0.lghyo.mongodb.net/test', {
+    mongoose.connect('mongodb+srv://egarcia:<clave>@cluster0.lghyo.mongodb.net/test', {
         useNewUrlParser: true, 
         useUnifiedTopology: true,
         useCreateIndex: true
@@ -17,6 +17,45 @@ try {
 catch(error){
     console.log('Ocorrio un error al conectarse al cluster de Mongo Atlas: ' + error);
 }
+
+//API para insertar un nuevo carro
+
+router.post('/insert_carro', (req, res) => {
+    try {
+        const carro = new Carro(req.body);
+        carro.save();
+        res.status(200).json({resultado: 'Carro Agregado'});
+    }
+    catch(error){
+        console.log('Error al insertar el documento en MongoDB');
+    }
+})
+
+//Consultas la informacion de la base de datos, todos los documentos.
+router.get('/get_carros', async (req, res) => {
+    const carros = await Carro.find();
+    res.status(200).json(carros);
+});
+
+//Modificar la informacion de un carro
+router.put('/update_carro', async (req, res) => {
+    const cid = req.body.id;
+
+    const carroDB = await Carro.findById(cid);
+    if(!carroDB){
+        res.status(404).json({
+            msg: 'No existe el carro a modificar'
+        });
+    }
+
+    const datos = req.body;
+    delete datos.placa;
+
+    const carroActualizado = await Carro.findByIdAndUpdate(cid, datos, {new:true});
+
+    res.status(200).json({carro: carroActualizado});
+});
+
 
 module.exports = router;
 
