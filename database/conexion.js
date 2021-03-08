@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const dbConnection = async() => {
     //Código de conexión a la base de datos
     try {
-        mongoose.connect('mongodb+srv://<usuario>:<clave>@cluster0.lghyo.mongodb.net/test', { //Ponga su clave aquí
+        mongoose.connect('mongodb+srv://egarcia:admin123@cluster0.lghyo.mongodb.net/test', { //Ponga su clave aquí
             useNewUrlParser: true, 
             useUnifiedTopology: true,
             useCreateIndex: true
